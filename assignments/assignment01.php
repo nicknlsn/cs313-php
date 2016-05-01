@@ -8,7 +8,7 @@
 
 <body>
 <?php
-echo "<h1>coming soon</h1>";
+echo "<h1>assignment 01 coming soon</h1>";
 ?>
 
 </body>
