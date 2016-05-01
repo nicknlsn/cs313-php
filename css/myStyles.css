@@ -1,5 +1,15 @@
 body {
+	/* TODO: make this image progressive instead of baseline */
 	background-image: url("../images/rustictealwood-wallpapers-desktop-background.jpg");
 	background-repeat: no-repeat;
 	background-size: cover;
+}
+
+.dropdown-menu li:hover .sub-menu {
+    visibility: visible;
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+    /*background-color: grey;*/
 }
