@@ -1,11 +1,14 @@
 <?php
 
 // get data
-$user = htmlspecialchars($_POST["userName"]);
+$name = htmlspecialchars($_POST["userName"]);
 $academicLevel = htmlspecialchars($_POST["academicLevel"]);
 $fromState = htmlspecialchars($_POST["fromState"]);
 $car = htmlspecialchars($_POST["car"]);
-$line = "$user:$academicLevel:$fromState:$car\n";
+$line = "$name:$academicLevel:$fromState:$car\n";
+
+// update session variable
+$_SESSION["userName"] = "$name";
 
 // append data to file
 file_put_contents("results.txt", $line, FILE_APPEND);
