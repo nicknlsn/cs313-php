@@ -1,5 +1,3 @@
 Nick Nelson:Senior:AZ:2004 Mazda 6
 Parker Wright:Freshman:MN:Jeep Liberty
-Clay:Senior:UT:2014 Ford F-150
-blah blah:Sophomore:GA:asdf
-Nick again:Junior:CA:asdf
+
