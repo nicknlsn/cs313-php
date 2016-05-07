@@ -17,9 +17,9 @@ include '../modules/navBar.html'
 
 		<div class="container">
 			<ul>
-				<!-- <li><a href="../assignments/assignment01.php">Assignment 01</a></li>
-				<li><a href="../assignments/assignment02.php">Assignment 02</a></li> -->
-				<h2>Coming Soon</h2>
+				<li><a href="http://helloworld-nicknelson.rhcloud.com/">Hello World!</a></li>
+				<li><a href="/">Homepage</a></li>
+				<li><a href="/assignments/03Survey/survey.php">Survey</a></li>
 			</ul>
 		</div>
 	</body>
