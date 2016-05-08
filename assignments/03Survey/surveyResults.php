@@ -1,6 +1,5 @@
 <?php
-// get all data from file
-// $contents = file_get_contents("results.txt");
+session_start();
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +30,8 @@
 		    echo "Could not open results.txt";
 		}
 		?>
+
+		<br/><a href="endSession.php">end session</a>
 	</div>
 
 	<div id="footer">

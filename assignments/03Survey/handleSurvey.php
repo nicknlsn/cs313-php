@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 // get data
 $name = htmlspecialchars($_POST["userName"]);
