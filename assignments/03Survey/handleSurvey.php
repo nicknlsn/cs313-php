@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // resume existing session
 
 // get data
 $name = htmlspecialchars($_POST["userName"]);

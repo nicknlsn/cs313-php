@@ -48,7 +48,7 @@ if (isset($_SESSION['userName'])) {
 	</div>
 
 	<div id="footer">
-		© Nick Nelson
+		Nick Nelson
 	</div>
 </body>
 </html>

@@ -37,7 +37,7 @@ session_start(); // resume existing session
 	</div>
 
 	<div id="footer">
-		© Nick Nelson
+		Nick Nelson
 	</div>
 </body>
 </html>
