@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start(); // resume existing session
 ?>
 
 <!DOCTYPE html>
@@ -19,9 +19,9 @@ session_start();
 			while (($line = fgets($handle)) !== false) {
         		$set = explode(":", $line);    // split by the ':'
         		echo "<h1>$set[0]</h1>";       // name
-        		echo "$set[1]<br/>";           // academic level
-        		echo "From: $set[2]<br/>";     // from state
-        		echo "Drives a: $set[3]<br/>"; // car
+        		echo "School year: $set[1]<br/>";           // academic level
+        		echo "Home state: $set[2]<br/>";     // from state
+        		echo "Car: $set[3]<br/>"; // car
 			}
 
 			fclose($handle); // close the file
@@ -29,9 +29,11 @@ session_start();
 		    // error opening the file.
 		    echo "Could not open results.txt";
 		}
-		?>
 
-		<br/><a href="endSession.php">end session</a>
+		if (isset($_SESSION['userName'])) {
+				echo "<br/>You have a session going that prevents you from doing the survey again. <a href=\"endSession.php\">Click here</a> to end it.";
+		}
+		?>
 	</div>
 
 	<div id="footer">

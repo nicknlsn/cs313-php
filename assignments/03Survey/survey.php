@@ -1,10 +1,4 @@
-<?php // not sure if this is working yet
-// if (isset($_SESSION)) {
-// 	header('Location: surveyResults.php'); // redirect to messages.php
-// } else {
-// 	session_start();
-// }
-
+<?php
 session_start();
 if (isset($_SESSION['userName'])) {
 	header('Location: surveyResults.php'); // redirect to messages.php
