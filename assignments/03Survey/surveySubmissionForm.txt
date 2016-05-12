@@ -7,22 +7,21 @@ A simple survey. The purpose is to learn a little about PHP form handling as wel
 https://php-nicknelson.rhcloud.com/assignments/03Survey/survey.php
 
 3. Copy and paste the URL for your source code repository (e.g., GitHub):
-
+https://github.com/nicknlsn/cs313-php/tree/master/assignments/03Survey
 
 4. Briefly list and describe the elements of the application that are functioning. Include any special instructions about how to login and/or use your application.
-
+There is no login element to this application. You can simply answer the four questions and then see the results of other people’s answers. The main thing is that PHP is used to grab all the values, save them to a file, and get them from the file to display them on the results page. The other thing is about sessions. The server will try to remember who has taken the survey before with a session variable, and if it is set, then it will redirect you to the results page. If you have a dire need to take the survey again, there is a link on the results page to restore the session and go back.
 
 5. Briefly describe any pieces of the assignment that are not yet working correctly.
-
+Everything should be working correctly.
 
 6. Please select the category you feel best describes your assignment:
 A - Some attempt was made
 B - Developing, but signficantly deficient
 C - Slightly deficient, but still mostly adequate
-D - Meets requirements
+D - Meets requirements <=== THAT ONE
 E - Shows creativity and excels above and beyond requirements
 
 
 7. Provide a brief justification (1-2 sentences) for selecting that category.
-
-
+The application meets all the requirements of the assignment, but due to the lack of fancy looks and such I don’t think it deserves the ‘shows creativity’ grade.
