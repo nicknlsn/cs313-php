@@ -67,8 +67,11 @@ select * from user;
 select * from user where id = 2;
 select * from journal;
 select * from journal where userId=2;
+select * from journal where id=4;
 select * from entry;
 select * from entry where userId = 2;
 select * from entry where journalId=4;
+
+select * from entry where userId = 2 order by createDate desc limit 1;
 
 select * from user where username="normanLevy" and password="hardPassword";

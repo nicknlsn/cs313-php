@@ -1,5 +1,7 @@
 <?php
 session_start();
+
+// obviously, this will need to be replaced by a query to the database to authenticate a user
 if ($_POST['submit'] == "Login as Norman Levy") {
 	$_SESSION["username"] = "normanLevy";
 	$_SESSION["loggedIn"] = true;

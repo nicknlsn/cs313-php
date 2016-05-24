@@ -35,7 +35,7 @@
           // $stmt->execute();
           // $journals = $stmt->fetchAll(PDO::FETCH_ASSOC); // journals is all journals belonging to logged in user
 
-          if (count($journals) == 1) { // if logged in user only has one journal
+          if ($numJournals == 1) { // if logged in user only has one journal
             // display a single button for adding a new journal
             echo '<li><a href="#">New Journal</a></li>';
           } else { // if logged in user has more than one journal
@@ -45,7 +45,7 @@
             echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">My Journals<span class="caret"></span></a>';
             echo '<ul class="dropdown-menu">';
             foreach ($journals as $journal) {
-              echo '<li><a href="#">' . $journal['name'] . '</a></li>';
+              echo '<li><a href="index.php?journal=' . $journal['name'] . '&journalId=' . $journal['id'] . '">' . $journal['name'] . '</a></li>'; // need to link this to a journal somehow...
             }
             echo '<li class="divider"></li>';
             echo '<li><a href="#">New Journal</a></li>';

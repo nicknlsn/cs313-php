@@ -1,32 +1,7 @@
 <?php
-// session handling here
 session_start();
-
-// try {
-// 	$user = "php";
-// 	$password = "thePassword";
-// 	$db = new PDO('mysql:host=127.0.0.1;dbname=Journal', $user, $password);
-// } catch (PDOException $ex) {
-// 	echo "Error " . $ex->getMessage();
-// 	die();
-// }
-
-// get database connected
-require("dbConnector.php");
+require("dbConnector.php"); // get database connected
 $db = loadDatabase();
-
-// $username = "normanLevy";
-// $password = "hardPassword";
-// $stmt = $db->prepare('SELECT * FROM user WHERE username=:username AND password=:password');
-// $stmt->bindValue(':username', $username, PDO::PARAM_STR);
-// $stmt->bindValue(':password', $password, PDO::PARAM_STR);
-// $stmt->execute();
-// $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-// foreach ($rows as $row) {
-// 	echo 'user: ' . $row['username'];
-// 	echo '<br/>';
-// 	echo 'password: ' . $row['password'];
-// } // cool demo bro
 ?>
 
 <!DOCTYPE html>
@@ -37,54 +12,86 @@ include 'modules/headBlock.html';
 ?>
 
 <body>
-
-	<!-- top nav bar -->
 	<?php
-	// probably try to get journals here... so the info can be used in the nav bar.
-	if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-        // get journals
-		$stmt = $db->prepare("SELECT * FROM journal WHERE userId=:userId");
-		$stmt->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
-		$stmt->execute();
-        $journals = $stmt->fetchAll(PDO::FETCH_ASSOC); // journals is all journals belonging to logged in user
-      }
+	/**********************************************************/
+	/* some dope functions */
+	/**********************************************************/
+	function getJournalAndEntries($db) {
+		// get last used journal, first get the journalId
+		$stmtGetLastEntry = $db->prepare("SELECT * FROM entry WHERE userId=:userId ORDER BY createDate DESC LIMIT 1");
+		$stmtGetLastEntry->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+		$stmtGetLastEntry->execute();
+	    $latestEntries = $stmtGetLastEntry->fetchAll(PDO::FETCH_ASSOC); // the last entry the user made
+	    $latestEntry = $latestEntries[0];
+	    $journalId = $latestEntry['journalId']; // the journalId for the last used journal
 
-      include 'modules/navBarTop.php';
-      ?>
+	    // then get the journal with the journalId, in order to get the journal name
+	    $stmtGetJournal = $db->prepare("SELECT * FROM journal WHERE id=:id");
+	    $stmtGetJournal->bindValue(':id', $journalId, PDO::PARAM_INT);
+	    $stmtGetJournal->execute();
+	    $journals = $stmtGetJournal->fetchAll(PDO::FETCH_ASSOC); // the journal with the latest entry
+	    $journal = $journals[0];
+	    $journalName = $journal['name'];
 
-      <?php
-if (isset($_SESSION['loggedIn'])) { // user is logged in
-	// display journal
+	    // get the number of journals, for now just get all the journals in the journal table for this user, in the future use the journalCount data in the user table
+	    $stmtGetNumJournal = $db->prepare("SELECT * FROM journal WHERE userId=:userId");
+	    $stmtGetNumJournal->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+	    $stmtGetNumJournal->execute();
+	    $journals = $stmtGetNumJournal->fetchAll(PDO::FETCH_ASSOC);
+	    $numJournals = count($journals);
 
-	// 1. get entries for first journal
-	$journal = $journals[0];
-	$journalId = $journal['id'];
-
-	// 2. display last used journal? crap, thats not in the database. just use the oldest journal, or the first row returned. do this step in div class container
-	echo '<div class="container">';
-	echo '<h1>' . $journal['name'] . '</h1>';
-	// lets just display some entries to demo the read only site'
-	$stmt = $db->prepare("SELECT * FROM entry WHERE journalId=:journalId;");
-	$stmt->bindValue(':journalId', $journalId, PDO::PARAM_INT);
-	$stmt->execute();
-    $entries = $stmt->fetchAll(PDO::FETCH_ASSOC); // journals is all journals belonging to logged in user
-	foreach ($entries as $entry) {
-		echo '<h3>Entry from: ' . $entry['createDate'] . '</h3>';
-		echo '<h4>' . $entry['text'] . '</h4>';
-		echo '</br>';
+	    $returnInfo = array('latestEntry'=>$latestEntry, 'journalId'=>$journalId, 'journal'=>$journal, 'journalName'=>$journalName, 'journals'=>$journals, 'numJournals'=>$numJournals);
+		return $returnInfo;
 	}
-	echo '</div>';
 
-} else { // user needs to login/signup
-	// display login box or signup box
-	include 'modules/loginOrSignup.php';
-}
-?>
+	function getEntries($db, $journalId) {
+		$stmt = $db->prepare("SELECT * FROM entry WHERE journalId=:journalId;");
+	    $stmt->bindValue(':journalId', $journalId, PDO::PARAM_INT);
+	    $stmt->execute();
+    	$entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    	$entriesReversed = array_reverse($entries);
+    	return $entriesReversed;
+	}
+	/**********************************************************/
+	/* end dope functions */
+	/**********************************************************/
 
-<!-- Static bottom navbar -->
-<?php
-// include 'modules/navBarBottom.html'; // not sure if i need a bottom bar...
-?>
+	if (isset($_SESSION['loggedIn'])) { // user is logged in
+		// get journals with a function!!!
+        $journalInfo = getJournalAndEntries($db);   // some info we need
+        $latestEntry = $journalInfo['latestEntry']; // the last entry this user made
+        $journalId = $journalInfo['journalId'];     // the journalId the last entry belongs to
+        $journal = $journalInfo['journal'];         // the journal the last entry was made in
+        $journalName = $journalInfo['journalName']; // the name of that journal
+        $journals = $journalInfo['journals'];       // all the journals for this user
+        $numJournals = $journalInfo['numJournals']; // the number of journals
+
+	    // get the nav bar going
+    	include 'modules/navBarTop.php';
+
+		if (isset($_GET['journal'])) { // check for a request for a specific journal
+			// display the requested journal OH MY GOSH HOW DO I DO THIS?
+			$journalName = $_GET['journal'];
+	    	$entries = getEntries($db, $_GET['journalId'];);
+		} else { // display the latest journal and entries
+	    	$entries = getEntries($db, $journalId);
+		}
+		echo '<div class="container">';
+	    echo '<h1>Journal: ' . $journalName . '</h1>';
+    	foreach ($entries as $entry) { // just display all the entries for now, next week we'll get a text box going and might hide previous entries
+    		echo '<h3>Entry from: ' . $entry['createDate'] . '</h3>';
+    		echo '<h4>' . $entry['text'] . '</h4>';
+    		echo '</br>';
+    	}
+    	echo '</div>';
+	} else { // user needs to login or sign up
+		// display login box or sign up box
+		include 'modules/loginOrSignup.php';
+	}
+
+	// Static bottom navbar
+	// include 'modules/navBarBottom.html'; // not sure if i need a bottom bar...
+	?>
 
 </body>
 </html>
