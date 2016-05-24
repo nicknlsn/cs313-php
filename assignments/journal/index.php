@@ -72,7 +72,7 @@ include 'modules/headBlock.html';
 		if (isset($_GET['journal'])) { // check for a request for a specific journal
 			// display the requested journal OH MY GOSH HOW DO I DO THIS?
 			$journalName = $_GET['journal'];
-	    	$entries = getEntries($db, $_GET['journalId'];);
+	    	$entries = getEntries($db, $_GET['journalId']);
 		} else { // display the latest journal and entries
 	    	$entries = getEntries($db, $journalId);
 		}
