@@ -13,7 +13,7 @@ include 'modules/headBlock.html';
 
 <!-- top nav bar -->
 <?php
-include 'modules/navBarTop.html';
+include 'modules/navBarTop.php';
 ?>
 
 <div class="container">
