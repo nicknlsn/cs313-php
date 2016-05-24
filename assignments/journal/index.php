@@ -2,18 +2,21 @@
 // session handling here
 session_start();
 
-// lets just log in norman levy to demo read only site
-try {
-	$user = "php";
-	$password = "thePassword";
-	$db = new PDO('mysql:host=127.0.0.1;dbname=Journal', $user, $password);
-} catch (PDOException $ex) {
-	echo "Error " . $ex->getMessage();
-	die();
-}
+// try {
+// 	$user = "php";
+// 	$password = "thePassword";
+// 	$db = new PDO('mysql:host=127.0.0.1;dbname=Journal', $user, $password);
+// } catch (PDOException $ex) {
+// 	echo "Error " . $ex->getMessage();
+// 	die();
+// }
 
-$username = "normanLevy";
-$password = "hardPassword";
+// get database connected
+require("dbConnector.php");
+$db = loadDatabase();
+
+// $username = "normanLevy";
+// $password = "hardPassword";
 // $stmt = $db->prepare('SELECT * FROM user WHERE username=:username AND password=:password');
 // $stmt->bindValue(':username', $username, PDO::PARAM_STR);
 // $stmt->bindValue(':password', $password, PDO::PARAM_STR);
@@ -56,7 +59,6 @@ if (isset($_SESSION['loggedIn'])) { // user is logged in
 	// 1. get entries for first journal
 	$journal = $journals[0];
 	$journalId = $journal['id'];
-		// echo 'journalId: ' . $journalId;
 
 	// 2. display last used journal? crap, thats not in the database. just use the oldest journal, or the first row returned. do this step in div class container
 	echo '<div class="container">';

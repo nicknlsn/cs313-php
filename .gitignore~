@@ -1,0 +1,2 @@
+# exclude dbConnector.php because it contains local database info
+/assignments/journal/localDBCredentials.php
