@@ -1,41 +1,67 @@
-<div class='table'>
-    <div class='cell'>
-        <form id="login" action="handleLogin.php" method="POST">
-            <!-- <label>Username:</label> UNCOMMENTED TO DEMO READ ONLY SITE.
-            <input type="text" name="userid" size="18" maxlength="18" />
-            <br />
-            <label>Password :</label>
-            <input type="password" name="pswrd" size="18" maxlength="18" />
-            <br />
-            <input type="submit" value="Submit" />
-            <input type="reset" value="Cancel" onclick="myFunction()" value="Reset form" /> -->
+<div class="form">
 
-            <!-- DEMO SITE CODE FOLLOWS -->
-            <input id="normanlevy-submit" type="submit" name="submit" value="Login as Norman Levy"/>
-            <input id="darthvader-submit" type="submit" name="submit" value="Login as Darth Vader"/>
-            <!-- DEMO SITE CODE ENDS -->
-        </form>
+  <ul class="tab-group">
+    <li class="tab active"><a href="#signup">Sign Up</a></li>
+    <li class="tab"><a href="#login">Log In</a></li>
+  </ul>
+  <div class="tab-content">
+
+    <div id="signup">
+      <h1>Sign Up for Free</h1>
+      <form action="/" method="post">
+        <div class="top-row">
+          <div class="field-wrap">
+            <label>First Name<span class="req">*</span></label>
+            <input type="text" required autocomplete="off" />
+          </div>
+          <div class="field-wrap">
+            <label>Last Name<span class="req">*</span></label>
+            <input type="text" required autocomplete="off" />
+          </div>
+        </div>
+        <div class="field-wrap">
+          <label>Email Address<span class="req">*</span></label>
+          <input type="email" required autocomplete="off" />
+        </div>
+        <div class="field-wrap">
+          <label>Set A Password<span class="req">*</span></label>
+          <input type="password" required autocomplete="off" />
+        </div>
+        <button type="submit" class="button button-block" />Get Started</button>
+      </form>
     </div>
+
+    <div id="login">
+      <h1>Welcome Back!</h1>
+      <form action="/" method="post">
+        <div class="field-wrap">
+          <label>Email Address<span class="req">*</span></label>
+          <input type="email" required autocomplete="off" />
+        </div>
+        <div class="field-wrap">
+          <label>Password<span class="req">*</span></label>
+          <input type="password" required autocomplete="off" />
+        </div>
+        <p class="forgot"><a href="#">Forgot Password?</a></p>
+        <button class="button button-block" />Log In</button>
+      </form>
+    </div>
+
+  </div>
+  <!-- tab-content -->
+
 </div>
+<!-- /form -->
+<script src='modules/jquery.min.js'></script>
+<script type="text/javascript" src="modules/index.js"></script>
 
-<!-- <div class="wrapper">
-  <!-- <h1>Register For An Account</h1>
-  <p>To sign-up for a free basic account please provide us with some basic information using
-  the contact form below. Please use valid credentials.</p> -->
-<!--   <form class="form" method="post" action="yourpage.html">
-    <input type="text" class="name" placeholder="First and last name">
-    <div>
-      <p class="name-help">Please enter your first and last name.</p>
-    </div>
-    <input type="email" class="email" placeholder="Email">
-     <div>
-      <p class="email-help">Please enter your current email address.</p>
-    </div>
-    <input type="password" class="password" placeholder="password">
-    <input type="password" class="password" placeholder="password">
-    <input type="submit" class="submit" value="Register">
-  </form>
-</div> -->
-<!-- <p class="optimize">
-  Optimized for Chrome & Firefox!
-</p> -->
+<!--
+Copyright (c) 2016 by Captain Anonymous (http://codepen.io/anon/pen/dXyzKq)
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+-->
+

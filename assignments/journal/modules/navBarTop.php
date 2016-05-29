@@ -29,18 +29,11 @@
         </li> -->
         <?php
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-        // get journals -- nope, i got them on index.php
-          // $stmt = $db->prepare("SELECT * FROM journal WHERE userId=:userId");
-          // $stmt->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
-          // $stmt->execute();
-          // $journals = $stmt->fetchAll(PDO::FETCH_ASSOC); // journals is all journals belonging to logged in user
-
           if ($numJournals == 1) { // if logged in user only has one journal
             // display a single button for adding a new journal
             echo '<li><a href="#">New Journal</a></li>';
           } else { // if logged in user has more than one journal
             // display a drop down with all the journals, and a button at the bottom for adding a new journal
-            //$journals = array("My First Journal", "School Journal", "Scripture Study Journal"); // for demo
             echo '<li class="dropdown">';
             echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">My Journals<span class="caret"></span></a>';
             echo '<ul class="dropdown-menu">';

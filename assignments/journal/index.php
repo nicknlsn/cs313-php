@@ -14,38 +14,27 @@ include 'modules/headBlock.html';
 <body>
 	<?php
 	/**********************************************************/
-	/* some dope functions */
+	/* some dope functions - might move this to another file eventually */
 	/**********************************************************/
-	function getJournalAndEntries($db) {
-		// get last used journal, first get the journalId
-		$stmtGetLastEntry = $db->prepare("SELECT * FROM entry WHERE userId=:userId ORDER BY createDate DESC LIMIT 1");
-		$stmtGetLastEntry->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
-		$stmtGetLastEntry->execute();
-	    $latestEntries = $stmtGetLastEntry->fetchAll(PDO::FETCH_ASSOC); // the last entry the user made
-	    $latestEntry = $latestEntries[0];
-	    $journalId = $latestEntry['journalId']; // the journalId for the last used journal
+	function getJournals($db) {
+		// this query returns the journals for this user, with the first row being the one with the latest entry
+		$query = "SELECT DISTINCT journal.id, journal.name FROM journal LEFT JOIN entry ON entry.journalId=journal.id WHERE journal.userId=:userId ORDER BY entry.createDate DESC";
+		$stmtJournalInfo = $db->prepare($query);
+		$stmtJournalInfo->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
+		$stmtJournalInfo->execute();
+	    $journals = $stmtJournalInfo->fetchAll(PDO::FETCH_ASSOC); // fetch all to get all rows, each row representing a journal
 
-	    // then get the journal with the journalId, in order to get the journal name
-	    $stmtGetJournal = $db->prepare("SELECT * FROM journal WHERE id=:id");
-	    $stmtGetJournal->bindValue(':id', $journalId, PDO::PARAM_INT);
-	    $stmtGetJournal->execute();
-	    $journals = $stmtGetJournal->fetchAll(PDO::FETCH_ASSOC); // the journal with the latest entry
-	    $journal = $journals[0];
-	    $journalName = $journal['name'];
-
-	    // get the number of journals, for now just get all the journals in the journal table for this user, in the future use the journalCount data in the user table
-	    $stmtGetNumJournal = $db->prepare("SELECT * FROM journal WHERE userId=:userId");
-	    $stmtGetNumJournal->bindValue(':userId', $_SESSION['userId'], PDO::PARAM_INT);
-	    $stmtGetNumJournal->execute();
-	    $journals = $stmtGetNumJournal->fetchAll(PDO::FETCH_ASSOC);
-	    $numJournals = count($journals);
-
-	    $returnInfo = array('latestEntry'=>$latestEntry, 'journalId'=>$journalId, 'journal'=>$journal, 'journalName'=>$journalName, 'journals'=>$journals, 'numJournals'=>$numJournals);
-		return $returnInfo;
+	    return array(
+	    	'journalId'=>$journals[0]['id'],     // id of last used journal
+	    	'journalName'=>$journals[0]['name'], // name of lase used journal
+	    	'journals'=>$journals,               // all of this users journal ids and names, used for the navbar drop down menu
+	    	'numJournals'=>count($journals)      // the number of journals this user has, used for the navbar drop down menu
+	    	);
 	}
 
+	// get all the entries for a particular journal
 	function getEntries($db, $journalId) {
-		$stmt = $db->prepare("SELECT * FROM entry WHERE journalId=:journalId;");
+		$stmt = $db->prepare("SELECT createDate, text FROM entry WHERE journalId=:journalId;");
 	    $stmt->bindValue(':journalId', $journalId, PDO::PARAM_INT);
 	    $stmt->execute();
     	$entries = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -58,10 +47,8 @@ include 'modules/headBlock.html';
 
 	if (isset($_SESSION['loggedIn'])) { // user is logged in
 		// get journals with a function!!!
-        $journalInfo = getJournalAndEntries($db);   // some info we need
-        $latestEntry = $journalInfo['latestEntry']; // the last entry this user made
+        $journalInfo = getJournals($db);            // need to do this every time for navbar menu
         $journalId = $journalInfo['journalId'];     // the journalId the last entry belongs to
-        $journal = $journalInfo['journal'];         // the journal the last entry was made in
         $journalName = $journalInfo['journalName']; // the name of that journal
         $journals = $journalInfo['journals'];       // all the journals for this user
         $numJournals = $journalInfo['numJournals']; // the number of journals
@@ -85,6 +72,7 @@ include 'modules/headBlock.html';
     	}
     	echo '</div>';
 	} else { // user needs to login or sign up
+		include 'modules/navBarTop.php';
 		// display login box or sign up box
 		include 'modules/loginOrSignup.php';
 	}
