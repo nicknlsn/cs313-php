@@ -15,6 +15,9 @@ alter table user modify username varchar(50) not null;
 alter table user modify password varchar(100) not null;
 alter table user modify emailAddress varchar(100) not null;
 alter table user modify accountCreateDate date not null;
+alter table user add firstName varchar(30);
+alter table user modify firstName varchar(30) not null;
+alter table user add lastName varchar(30) not null;
 explain user;
 
 create table journal (
@@ -40,7 +43,7 @@ create table entry (
   foreign key (journalId) references journal(id)
   );
 alter table entry modify journalId int not null;
-alter table entry modify createDate date not null;
+alter table entry modify createDate datetime not null;
 alter table entry modify text text not null;
 alter table entry drop column userId;
 alter table entry drop foreign key entry_ibfk_1;
@@ -52,8 +55,11 @@ describe entry;
 
 insert into user (username, password, emailAddress, accountCreateDate) 
 values ('normanLevy', 'hardPassword', 'normanLevy1290@gmail.com', '2016-05-17');
+update user set firstName='Norman',lastName='Levy' where username='normanLevy';
 insert into user (username, password, emailAddress, accountCreateDate) 
 values ('darthvader', 'joinTheDarkside', 'notsureiwanttosignuphere@gmail.com', '2016-05-23');
+update user set firstName='Anikan',lastName='Skywalker' where username='darthvader';
+INSERT INTO user(firstName, lastName, email, password, username, accountCreateDate) VALUES ('Nick', 'Nelson', 'nicknlsn@gmail.com');
 
 insert into journal (userId, name, createDate) 
 values (1, 'My First Journal', '2016-05-17');
@@ -80,15 +86,18 @@ insert into entry (journalId, userId, createDate, text)
 values (4, 2, '2016-05-24', 'Today I finally told Luke I was his father. It did not go over well. I knew it was going to be awkward. I freaking cut off his hand! Gosh dangit! Why did it have to be so awkward!');
 
 select * from user;
+delete from user where username='foo';
 select * from user where id = 2;
 select password, id, username, emailAddress from user where emailAddress='notsureiwanttosignuphere@gmail.com';
 select password, id, username, emailAddress from user where emailAddress='badaddress@gmail.com';
+
 select * from journal;
-select * from journal where userId=2;
+delete from journal where userId>9;
+select * from journal where userId>9;
 select * from journal where id=4;
+
 select * from entry;
-select * from entry where userId = 1;
-select * from entry where journalId=4;
+select * from entry where journalId>8;
 select journal.id from journal join entry on entry.createDate where userId=2;
 
 -- how to make these two queries into one?
@@ -96,10 +105,11 @@ select id from journal where userId=2;
 select createDate from entry where journalId=4 order by createDate desc;
 -- like this?
 select entry.createDate from entry left join journal on journal.id=entry.journalId where journal.userId=2 order by entry.createDate desc; -- i think like this! wait
-select distinct journal.id, journal.name from journal left join entry on entry.journalId=journal.id where journal.userId=1 order by entry.createDate desc; -- neat
+select distinct journal.id, journal.name, entry.createDate, entry.text from journal left join entry on entry.journalId=journal.id where journal.userId>9 order by entry.createDate desc; -- neat
 SELECT DISTINCT journal.id, journal.name FROM journal LEFT JOIN entry ON entry.journalId=journal.id WHERE journal.userId=1 ORDER BY entry.createDate DESC;
 select * from journal left join entry on entry.journalId=journal.id where journal.userId=1 order by entry.createDate desc limit 1; -- like this
 select * from journal left join entry on entry.journalId=journal.id where journal.userId=1; -- like this
+select journal.id, journal.name from journal left join entry on entry.journalId=journal.id where userId=14 order by entry.createDate desc;
 
 select * from entry where userId = 2 order by createDate desc limit 1;
 

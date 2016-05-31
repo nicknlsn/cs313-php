@@ -12,7 +12,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.php">Home</a>
+      <a class="navbar-brand" href="/">Home</a>
     </div>
     <div class="collapse navbar-collapse" id="myNavbar">
       <ul class="nav navbar-nav">
@@ -29,40 +29,40 @@
         </li> -->
         <?php
         if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) {
-          if ($numJournals == 1) { // if logged in user only has one journal
+          if ($_SESSION['numJournals'] < 2) { // if logged in user only has one journal
             // display a single button for adding a new journal
-            echo '<li><a href="#">New Journal</a></li>';
+            echo '<li><a href="newJournal.php">Create New Journal</a></li>';
           } else { // if logged in user has more than one journal
             // display a drop down with all the journals, and a button at the bottom for adding a new journal
             echo '<li class="dropdown">';
             echo '<a class="dropdown-toggle" data-toggle="dropdown" href="#">My Journals<span class="caret"></span></a>';
             echo '<ul class="dropdown-menu">';
-            foreach ($journals as $journal) {
-              echo '<li><a href="index.php?journal=' . $journal['name'] . '&journalId=' . $journal['id'] . '">' . $journal['name'] . '</a></li>'; // need to link this to a journal somehow...
+            foreach ($_SESSION['journals'] as $journal) {
+              echo '<li><a href="index.php?journal='.$journal['name'].'&journalId='.$journal['id'].'">'.$journal['name'].'</a></li>';
             }
             echo '<li class="divider"></li>';
-            echo '<li><a href="#">New Journal</a></li>';
+            echo '<li><a href="newJournal.php">Create New Journal</a></li>';
             echo '</ul>';
             echo '</li>';
           }
         }
         ?>
         <!-- <li><a href="entries.php">My Journals</a></li> -->
-        <li><a href="about.php">About</a></li>
       </ul>
       <!-- here we will need to put php to display different buttons based on sessions -->
-      <?php
-      echo '<ul class="nav navbar-nav navbar-right">';
-      if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) { // show a logout button in navbar, and open journal on top of background
-        echo '<li><a href="#">' . $_SESSION['username'] . '</a></li>';
-        echo '<li><a href="logout.php">Logout</a></li>';
-      }
-      // else { // show a login button and a sign up button. NO! show a closed journal with login window on top
-      //   echo '<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
-      //   include 'modules/loginDropdown.php';
-      // }
-      echo '</ul>';
-      ?>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="about.php">About</a></li>
+        <?php
+        if (isset($_SESSION['loggedIn']) && $_SESSION['loggedIn'] == true) { // show a logout button in navbar, and open journal on top of background
+          echo '<li><a href="#">' . $_SESSION['username'] . '</a></li>';
+          echo '<li><a href="logout.php">Logout</a></li>';
+        }
+        // else { // show a login button and a sign up button. NO! show a closed journal with login window on top
+        //   echo '<li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>';
+        //   include 'modules/loginDropdown.php';
+        // }
+        ?>
+      </ul>
 
       <!-- <ul class="nav navbar-nav navbar-right">
         <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
